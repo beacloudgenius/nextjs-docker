@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextjs
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  replicas: 1
+  # replicas: 10000
+  selector:
+    matchLabels:
+      role: nextjs
+  template:
+    metadata:
+      labels:
+        role: nextjs
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: nextjs
+          image: docker.io/cloudgenius/nextjs-docker
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              protocol: TCP
